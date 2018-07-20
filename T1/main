@@ -1,23 +1,37 @@
 clc; clear all;
 
-metodo = 0;
+% Comentários:
+% • Colocar função e intervalo via interface
 
-%% Escolha do método de otimização via caixa de diálogo
+metodo = 0; error = 0; min = 0;
+
+%% Escolhas do usuário
+
+x = linspace(-5,5); %Adicionar domínio
+f = x.^2; %Adicionar função aqui
+
 resposta = questdlg('Qual é o método de otimização a ser utilizado?', ...
 	'Possibilidades', ...
-	'op1','op2','op3','op1');
+	'Fibonacci','Razão Áurea','Brendt','Fibonacci');
 
 switch resposta
-    case 'op1'
+    case 'Fibonacci'
         metodo = 1;
-    case 'op2'
+    case 'Razão Áurea'
         metodo = 2;
-    case 'op3'
+    case 'Brendt'
         metodo = 3;
 end
 
+plot(x,f)
+hold on
+
 %% Opção 1 selecionada
 if(metodo == 1)
+    
+    while(error >= 10^-6)
+        plot(min,'r-o');    
+    end
     
     
     
@@ -26,7 +40,9 @@ end
 %% Opção 2 selecionada
 if(metodo == 2)
     
-    
+    while(error >= 10^-6)
+        plot(min,'r-o');    
+    end
     
 end
 
@@ -34,9 +50,8 @@ end
 %% Opção 3 selecionada
 if(metodo == 3)
     
-    
+    while(error >= 10^-6)
+        plot(min,'r-o');    
+    end
     
 end
-
-
-%% Graphic plot
