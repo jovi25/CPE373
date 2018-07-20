@@ -1,0 +1,42 @@
+clc; clear all;
+
+metodo = 0;
+
+%% Escolha do método de otimização via caixa de diálogo
+resposta = questdlg('Qual é o método de otimização a ser utilizado?', ...
+	'Possibilidades', ...
+	'op1','op2','op3','op1');
+
+switch resposta
+    case 'op1'
+        metodo = 1;
+    case 'op2'
+        metodo = 2;
+    case 'op3'
+        metodo = 3;
+end
+
+%% Opção 1 selecionada
+if(metodo == 1)
+    
+    
+    
+end
+
+%% Opção 2 selecionada
+if(metodo == 2)
+    
+    
+    
+end
+
+
+%% Opção 3 selecionada
+if(metodo == 3)
+    
+    
+    
+end
+
+
+%% Graphic plot
