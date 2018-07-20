@@ -1,7 +1,7 @@
 clc; clear all;
 
 % Comentários:
-% • Colocar função e intervalo via interface
+% • Implementar função e intervalo via interface
 
 metodo = 0; error = 0; min = 0;
 
