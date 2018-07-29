@@ -24,7 +24,7 @@ switch resposta
         metodo = 1;
     case 'Razão Áurea'
         metodo = 2;
-    case 'Brendt'
+    case 'Brent'
         metodo = 3;
 end
 
