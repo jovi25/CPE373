@@ -1,35 +1,36 @@
-clc; clear all; close all;
+cclc; clear all; close all;
 
 metodo = 0; error = 0; min = 0;
 
 %% Escolhas do usuário
 
-prompt = {'Limite inferior do domínio de plot:','Limite superior do domínio de plot:'};
+prompt = {'\fontsize{12}Limite inferior do domínio de plot:','\fontsize{12}Limite superior do domínio de plot:'};
 title = 'Domínio do Plot';
-dim = [1 38];
+dim = [1 70];
 definput = {'-5','5'};
-answerlimplot = inputdlg(prompt,title,dim,definput);
+opts.Interpreter = 'tex';
+answerlimplot = inputdlg(prompt,title,dim,definput,opts);
 x = linspace(str2double(answerlimplot(1,1)),str2double(answerlimplot(2,1)));
 
-prompt = {'Enter function'};
+prompt = {'\fontsize{12}Insira a função a ser otimizada'};
 title = 'Function';
-dims = [1 35];
 definput = {'@(x)10*sin(x)+x.^2+5'};
-answerfun = inputdlg(prompt,title,dims,definput);
+answerfun = inputdlg(prompt,title,dim,definput,opts);
 afun = char(answerfun);
 fun = str2func(afun);
 
-prompt = {'Limite inferior do intervalo de busca:','Limite superior do intervalo de busca:'};
+prompt = {'\fontsize{12}Limite inferior do intervalo de busca:','\fontsize{12}Limite superior do intervalo de busca:'};
 title = 'Busca';
-dim = [1 38];
 definput = {'-2','2'};
-answerrange = inputdlg(prompt,title,dim,definput);
+answerrange = inputdlg(prompt,title,dim,definput,opts);
 intervalo(:,:) = (str2double(answerrange(:,:)));
 a = intervalo(1,1); b = intervalo(2,1);
 
-dlogmet = questdlg('Qual é o método de otimização a ser utilizado?', ...
-	'Possibilidades', ...
-	'Fibonacci','Razão Áurea','Brent','Fibonacci');
+opts.Interpreter = 'tex';
+opts.Default = 'Fibonacci';
+quest = '\fontsize{12}Qual é o método de otimização a ser utilizado?';
+dlogmet = questdlg(quest,'Métodos de Otimização',...
+    'Fibonacci','Razão Áurea','Brent',opts);
 
 switch dlogmet
     case 'Fibonacci'
@@ -40,11 +41,10 @@ switch dlogmet
         metodo = 3;
 end
 
-prompt = {'Entrar a ordem do erro a ser aceito, 10 elevado a:'};
+prompt = {'\fontsize{12}Entrar a ordem do erro a ser aceito, 10 elevado a:'};
 title = 'Grandeza do Erro';
-dim = [1 38];
 definput = {'-6'};
-answererror = inputdlg(prompt,title,dim,definput);
+answererror = inputdlg(prompt,title,dim,definput,opts);
 tol = 10^(str2double(answererror));
 
 f = fun(x);
