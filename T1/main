@@ -1,18 +1,23 @@
-clc; clear all;
+clc; clear all;close all;
 
 % Comentários:
 % • Colocar função e intervalo via interface
+% • Colocar tolerancia via interface
 
 metodo = 0; error = 0; min = 0;
 
 %% Escolhas do usuário
 
+tol=10^-6;                 %Sera removido quando houver interface
+fun=@(x)0.4*sin(x)+x.^2+1; %Sera removido quando houver interface
+a=-2;                      %Sera removido quando houver interface
+b=2;                       %Sera removido quando houver interface
 x = linspace(-5,5); %Adicionar domínio
-f = x.^2; %Adicionar função aqui
+f = fun(x); %Adicionar função aqui
 
 resposta = questdlg('Qual é o método de otimização a ser utilizado?', ...
 	'Possibilidades', ...
-	'Fibonacci','Razão Áurea','Brendt','Fibonacci');
+	'Fibonacci','Razão Áurea','Brent','Fibonacci');
 
 switch resposta
     case 'Fibonacci'
@@ -29,18 +34,16 @@ hold on
 %% Opção 1 selecionada
 if(metodo == 1)
     
-    while(error >= 10^-6)
+    while(error >= tol)
         plot(min,'r-o');    
     end
-    
-    
     
 end
 
 %% Opção 2 selecionada
 if(metodo == 2)
     
-    while(error >= 10^-6)
+    while(error >= tol)
         plot(min,'r-o');    
     end
     
@@ -49,9 +52,30 @@ end
 
 %% Opção 3 selecionada
 if(metodo == 3)
-    
-    while(error >= 10^-6)
-        plot(min,'r-o');    
+            
+finish=0;
+interval=sort([a b]);
+e=0;   %previous increment
+d=0;    %current increment
+x=a+(3-sqrt(5))/2*(b-a);%x - point with the least value of fun(.)
+w=x;   %w - point with the next lowest value of fun(.)
+v=x;   %v - previous value of w
+fv=fun(v);
+fw=fv;
+fx=fv;
+MaxInt=20;
+i=0;
+while not(finish)
+    i=i+1;
+    [a,b,e,d,w,v,x,fv,fw,fx] = brent(fun,a,b,e,d,w,v,x,tol,fv,fw,fx);
+    min=x
+    fmin=fun(x);
+    interval=[a b]
+    if (max(x-a,b-x)<=2*tol || i>=MaxInt)
+        finish=1;
     end
+      
+end
+plot(min,fmin,'r-o');  
     
 end
