@@ -1,4 +1,4 @@
-cclc; clear all; close all;
+clc; clear all; close all;
 
 metodo = 0; error = 0; min = 0;
 
@@ -55,9 +55,13 @@ if(metodo == 1)
     plot(x,f)
     hold on
     
-    while(error >= tol)
-        plot(min,'r-o');    
-    end
+    plot([a,b],[0,0],'-o');
+    sigma = 0; %tolerancia - calcula índice de Fibonacci final pela fórmula de Binet
+    n = 10; %número de reduções - calcula índice de Fibonacci final pelo número de iterações
+    [min,fmin,int,a,b] = fibonacci(fun, a, b, sigma, n);
+    
+    plot(min,fmin,'r-p');  
+    plot([a,b],[-1,-1],'black-+');
     
 end
 
@@ -68,7 +72,10 @@ if(metodo == 2)
     hold on
     
     while(error >= tol)
-        plot(min,'r-o');    
+        
+    plot(min,fmin,'r-p');  
+    plot([a,b],[0,0],'black-+');
+    
     end
     
 end
@@ -79,7 +86,8 @@ if(metodo == 3)
     
     plot(x,f)
     hold on
-            
+    plot([a,b],[0,0],'-o');
+    
     finish=0;
     interval=sort([a b]);
     e=0;   %previous increment
@@ -101,10 +109,11 @@ if(metodo == 3)
         if (max(x-a,b-x)<=2*tol || i>=MaxInt)
             finish=1;
         end
-        plot([a,0],[b,0],'g-o');
+        plot([a,b],[0,0],'-o');
+        pause(1)
 
     end
     plot(min,fmin,'r-p');  
-    plot([a,0],[b,0],'black-+');
+    plot([a,b],[-1 -1],'black-+');
     
 end
