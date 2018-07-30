@@ -55,8 +55,9 @@ if(metodo == 1)
     plot(x,f)
     hold on
     
-    n = 10; %número de reduções
-    function [min, fmin, int] = fibonacci (f,a,b,n)
+    sigma = 0 %tolerancia - calcula índice de Fibonacci final pela fórmula de Binet
+    n = 10; %número de reduções - calcula índice de Fibonacci final pelo número de iterações
+    function [min, fmin, int] = fibonacci (f,a,b,,sigma,n)
     
     plot(min,fmin,'r-p');  
     plot([a,0],[b,0],'black-+');
