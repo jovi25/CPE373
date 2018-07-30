@@ -55,9 +55,11 @@ if(metodo == 1)
     plot(x,f)
     hold on
     
-    while(error >= tol)
-        plot(min,'r-o');    
-    end
+    n = 10; %número de reduções
+    function [min, fmin, int] = fibonacci (f,a,b,n)
+    
+    plot(min,fmin,'r-p');  
+    plot([a,0],[b,0],'black-+');
     
 end
 
