@@ -4,15 +4,14 @@
 % Grupo: André Coelho, Jair Azevedo, José Villardi, Laura Mothé e Victor Rodrigues
 
 
-function [x_min, y_min, int] = fibonacci (a,b,tol,n)
+function [x_min, y_min, int] = fibonacci (f,a,b,tol,n)
 
+% f: função a ser minimizada
 % a: início do intervalo
 % b: final do intervalo
 % tol: tolerância
 % n: número de reduções
 
-%Função a ser minimizada (hipótese: unimodal e enquadrante)
-f = @func_min;
 
 %Confere se intervalo inicial é válido
 if b <= a
