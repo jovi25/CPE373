@@ -1,47 +1,81 @@
-clc; clear all;
-
-% Comentários:
-% • Implementar função e intervalo via interface
+clc; clear all; close all;
 
 metodo = 0; error = 0; min = 0;
 
 %% Escolhas do usuário
 
-x = linspace(-5,5); %Adicionar domínio
-f = x.^2; %Adicionar função aqui
+prompt = {'\fontsize{12}Limite inferior do domínio de plot:','\fontsize{12}Limite superior do domínio de plot:'};
+title = 'Domínio do Plot';
+dim = [1 70];
+definput = {'-5','5'};
+opts.Interpreter = 'tex';
+answerlimplot = inputdlg(prompt,title,dim,definput,opts);
+x = linspace(str2double(answerlimplot(1,1)),str2double(answerlimplot(2,1)));
 
-resposta = questdlg('Qual é o método de otimização a ser utilizado?', ...
-	'Possibilidades', ...
-	'Fibonacci','Razão Áurea','Brendt','Fibonacci');
+prompt = {'\fontsize{12}Insira a função a ser otimizada'};
+title = 'Function';
+definput = {'@(x)10*sin(x)+x.^2+5'};
+answerfun = inputdlg(prompt,title,dim,definput,opts);
+afun = char(answerfun);
+fun = str2func(afun);
 
-switch resposta
+prompt = {'\fontsize{12}Limite inferior do intervalo de busca:','\fontsize{12}Limite superior do intervalo de busca:'};
+title = 'Busca';
+definput = {'-2','2'};
+answerrange = inputdlg(prompt,title,dim,definput,opts);
+intervalo(:,:) = (str2double(answerrange(:,:)));
+a = intervalo(1,1); b = intervalo(2,1);
+
+opts.Interpreter = 'tex';
+opts.Default = 'Fibonacci';
+quest = '\fontsize{12}Qual é o método de otimização a ser utilizado?';
+dlogmet = questdlg(quest,'Métodos de Otimização',...
+    'Fibonacci','Razão Áurea','Brent',opts);
+
+switch dlogmet
     case 'Fibonacci'
         metodo = 1;
     case 'Razão Áurea'
         metodo = 2;
-    case 'Brendt'
+    case 'Brent'
         metodo = 3;
 end
 
-plot(x,f)
-hold on
+prompt = {'\fontsize{12}Entrar a ordem do erro a ser aceito, 10 elevado a:'};
+title = 'Grandeza do Erro';
+definput = {'-6'};
+answererror = inputdlg(prompt,title,dim,definput,opts);
+tol = 10^(str2double(answererror));
+
+f = fun(x);
 
 %% Opção 1 selecionada
 if(metodo == 1)
     
-    while(error >= 10^-6)
-        plot(min,'r-o');    
-    end
+    plot(x,f)
+    hold on
     
+    plot([a,b],[0,0],'-o');
+    sigma = 0; %tolerancia - calcula índice de Fibonacci final pela fórmula de Binet
+    n = 10; %número de reduções - calcula índice de Fibonacci final pelo número de iterações
+    [min,fmin,int,a,b] = fibonacci(fun, a, b, sigma, n);
     
+    plot(min,fmin,'r-p');  
+    plot([a,b],[-1,-1],'black-+');
     
 end
 
 %% Opção 2 selecionada
 if(metodo == 2)
     
-    while(error >= 10^-6)
-        plot(min,'r-o');    
+    plot(x,f)
+    hold on
+    
+    while(error >= tol)
+        
+    plot(min,fmin,'r-p');  
+    plot([a,b],[0,0],'black-+');
+    
     end
     
 end
@@ -50,8 +84,37 @@ end
 %% Opção 3 selecionada
 if(metodo == 3)
     
-    while(error >= 10^-6)
-        plot(min,'r-o');    
+    plot(x,f)
+    hold on
+    plot([a,b],[0,0],'-o');
+    
+    finish=0;
+    interval=sort([a b]);
+    e=0;   %previous increment
+    d=0;    %current increment
+    x=a+(3-sqrt(5))/2*(b-a);%x - point with the least value of fun(.)
+    w=x;   %w - point with the next lowest value of fun(.)
+    v=x;   %v - previous value of w
+    fv=fun(v);
+    fw=fv;
+    fx=fv;
+    MaxInt=20;
+    i=0;
+    while not(finish)
+        i=i+1;
+        [a,b,e,d,w,v,x,fv,fw,fx] = brent(fun,a,b,e,d,w,v,x,tol,fv,fw,fx);
+        min=x;
+        fmin=fun(x);
+        interval=[a b];
+        if (max(x-a,b-x)<=2*tol || i>=MaxInt)
+            finish=1;
+        end
+        plot([a,b],[0,0],'-o');
+        pause(1)
+
     end
+    plot(min,fmin,'r-p');  
+    plot([a,b],[-1 -1],'black-+');
     
 end
+
